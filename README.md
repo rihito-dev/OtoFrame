@@ -4,7 +4,7 @@ A small C++17 library for inspecting the level, spectral shape, and pitch-class 
 
 An agent-friendly CLI converts PCM16 WAV files into structured JSON reports for coding agents, scripts, and automated workflows.
 
-**Current status:** private development preview. Local Apple Silicon macOS tests and GitHub CI on macOS (both FFT backends), Linux, and Windows have passed. No live microphone or iOS-device validation is claimed.
+**Current status:** initial OSS release. Local Apple Silicon macOS tests and GitHub CI on macOS (both FFT backends), Linux, and Windows have passed. No live microphone or iOS-device validation is claimed.
 
 ![Offline signal explorer](docs/preview.jpg)
 
@@ -113,7 +113,7 @@ The core leaves decoding, resampling, stereo policy, scheduling, and transport t
 
 ## 日本語
 
-既存の音響アプリから音声特徴量の抽出処理を独立させた、小さなC++17ライブラリです。音量、音の明るさ、音の変化量、12音の成分を取得できます。プライベート開発版で、リポジトリ名はOtoFrameです。
+既存の音響アプリから音声特徴量の抽出処理を独立させた、小さなC++17ライブラリです。音量、音の明るさ、音の変化量、12音の成分を取得できます。OtoFrameという名前で、初期版OSSとして公開しています。
 
 `demo/index.html` を開くと、合成音の分析結果をブラウザで確認できます。`./build.sh` でテストとデモを再生成できます。元の実装と単位・定義を整理した公開版では一部の数値が変わるため、互換性の詳細は抽出記録に明記しています。元のアプリには変更を加えていません。
 
@@ -121,6 +121,6 @@ CLIから対話操作なしで分析を実行し、指定したファイルに�
 
 ## License
 
-[MIT](LICENSE). Includes original portable FFT code and links Apple's system Accelerate framework when available. There is no bundled third-party DSP implementation or recorded-music asset. The repository is private during development. Public release is a separate decision.
+[MIT](LICENSE). Includes original portable FFT code and links Apple's system Accelerate framework when available. There is no bundled third-party DSP implementation or recorded-music asset.
 
 The viewer's bundled Geist fonts use the SIL Open Font License 1.1; see [third-party notices](THIRD_PARTY_NOTICES.md).
