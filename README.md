@@ -10,6 +10,8 @@ A small C++17 library for inspecting the level, spectral shape, and pitch-class 
 
 The [signal explorer](demo/index.html) is a self-contained HTML file. Open it directly in a browser. It includes a deterministic eight-second study: bass, chord, noise, and percussive pulses. No server, account, network request, or recorded music is required.
 
+The viewer supports System, Light, and Dark color themes and keyboard frame selection. Its [design notes](docs/DESIGN.md) describe the Taste-inspired typography, spacing, and plot hierarchy. Fonts are embedded for offline use.
+
 On macOS or Linux, build and run the numerical and WAV tests:
 
 ```sh
@@ -95,3 +97,5 @@ The core leaves decoding, resampling, stereo policy, scheduling, and transport t
 ## License
 
 [MIT](LICENSE). Includes original portable FFT code and links Apple's system Accelerate framework when available. There is no bundled third-party DSP implementation or recorded-music asset. The repository is private during development. Public release is a separate decision.
+
+The viewer's bundled Geist fonts use the SIL Open Font License 1.1; see [third-party notices](THIRD_PARTY_NOTICES.md).

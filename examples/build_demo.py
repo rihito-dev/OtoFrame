@@ -1,5 +1,6 @@
 """Embed a generated report in the offline demo. Python standard library only."""
 import json
+import base64
 from pathlib import Path
 import sys
 
@@ -12,5 +13,14 @@ if report.get("schema") != 1 or report.get("synthetic") is not True:
 # Escape HTML delimiters so JSON cannot close the data script element.
 data = json.dumps(report, separators=(",", ":"), allow_nan=False).replace("<", "\\u003c").replace("\u2028", "\\u2028").replace("\u2029", "\\u2029")
 template = (root / "demo/viewer.template.html").read_text()
+for token, filename in [("__GEIST_FONT__", "Geist.woff2"), ("__GEIST_MONO_FONT__", "GeistMono.woff2")]:
+    font = (root / "demo/fonts" / filename).read_bytes()
+    if font[:4] != b"wOF2":
+        raise SystemExit("Invalid bundled WOFF2 font: " + filename)
+    template = template.replace(token, "data:font/woff2;base64," + base64.b64encode(font).decode("ascii"))
+font_license = (root / "demo/fonts/OFL.txt").read_text()
+if "-->" in font_license:
+    raise SystemExit("Font license cannot contain an HTML comment terminator")
+template = template.replace("</head>", "<!-- Bundled Geist fonts: SIL Open Font License 1.1\n" + font_license + "\n-->\n</head>")
 (root / "demo/index.html").write_text(template.replace("__DEMO_JSON__", data))
 print("Saved demo/index.html (self-contained; no server needed)")

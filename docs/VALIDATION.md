@@ -48,8 +48,16 @@ c++ -std=c++17 -O1 -g -DOTOFRAME_PORTABLE=1 \
 build/features-sanitized
 ```
 
-The example's two generated `build/demo.json` files can be compared after saving one between backend builds. CMake/CTest was not executed locally because CMake is not installed. It was executed by GitHub CI on macOS (both backends), Linux, and Windows, and all four configurations passed. The successful run is [38338377621](https://github.com/rihito-dev/OtoFrame/actions/runs/38338377621), for source commit `4c614fabc0a0e2283779c10216a716d7038be393`. The later documentation-only commit does not change that tested source. Physical iOS/macOS audio-device behavior remains unverified.
+The example's two generated `build/demo.json` files can be compared after saving one between backend builds. CMake/CTest was not executed locally because CMake is not installed. It was executed by GitHub CI on macOS (both backends), Linux, and Windows, and all four configurations passed. The successful run is [38338377621](https://github.com/rihito-dev/OtoFrame/actions/runs/38338377621), for C++ source commit `4c614fabc0a0e2283779c10216a716d7038be393`. Later viewer/documentation updates preserve that tested C++ source. Physical iOS/macOS audio-device behavior remains unverified.
 
 The viewer was tested through a loopback-only HTTP server. Its generated HTML embeds data, scripts, and styles and contains no runtime network requests. Direct `file://` navigation could not be tested because the in-app browser blocks that protocol. The delivered HTML can be opened manually in a normal browser; that exact opening path has not been verified in this session.
 
 No speedup, processing deadline, recording-quality score, key-detection accuracy, adoption, or real-world audio performance is claimed.
+
+## Taste-referenced viewer refinement
+
+The 2026-10-13 viewer update retains the C++ engine, report schema, and all 375 embedded demo frames exactly as in the previous repository version. The JavaScript passes a syntax check; embedded fonts have valid WOFF2 headers and include the full SIL Open Font License in the generated HTML.
+
+Browser checks confirmed Light and Dark themes, System theme selection, keyboard first/last-frame selection, all descriptor tabs, the analysis disclosure, a valid local report, rejection of an invalid schema, recovery of the file-open button after an error, and resetting to the demo. Desktop width 1280 px, mobile width 390 px, and minimum width 320 px were checked; no horizontal overflow was observed. Screenshots are [Light](preview.jpg) and [Dark](preview-dark.jpg).
+
+Calculated text/label/accent contrast ratios against their actual background tokens are 5.23:1 or higher in Light and 6.85:1 or higher in Dark (main text: 14.60:1 and 15.51:1). The reduced-motion CSS fallback was reviewed; no operating-system preference was changed for this check. There were no browser console warnings/errors during final verification. No Lighthouse or hardware performance measurement was performed for the visual update.
