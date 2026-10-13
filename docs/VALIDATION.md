@@ -13,6 +13,7 @@ Environment: Apple Silicon macOS, Xcode 27.0, Apple Clang 21.0, C++17. Validatio
 | Final Apple → portable report | 375 frames; differences below the tolerances below |
 | Browser interaction | First/last frame, all descriptor tabs, report upload, rejected schema, demo reset confirmed |
 | Layout | 1280 px and 390 px browser widths; no horizontal overflow |
+| GitHub CMake/CTest | macOS Accelerate, macOS portable, Linux portable, Windows portable: all four configurations passed |
 
 Numerical tests include independent double-precision direct DFTs at N=32/64/256, zero-padded partial frames, known tone amplitude/RMS, DC/Nyquist separation, power bands, chroma pitch-class mapping, silence, temporal flux/reset, invalid construction/input, and C++ `operator new` instrumentation around process/reset. Allocation instrumentation does not cover `malloc` inside system frameworks.
 
@@ -47,7 +48,7 @@ c++ -std=c++17 -O1 -g -DOTOFRAME_PORTABLE=1 \
 build/features-sanitized
 ```
 
-The example's two generated `build/demo.json` files can be compared after saving one between backend builds. CMake/CTest is provided but was not executed locally because CMake is not installed. The remote CI workflow has not run; Windows, Linux, and physical iOS/macOS audio-device behavior remain unverified.
+The example's two generated `build/demo.json` files can be compared after saving one between backend builds. CMake/CTest was not executed locally because CMake is not installed. It was executed by GitHub CI on macOS (both backends), Linux, and Windows, and all four configurations passed. The successful run is [38338377621](https://github.com/rihito-dev/OtoFrame/actions/runs/38338377621), for source commit `4c614fabc0a0e2283779c10216a716d7038be393`. The later documentation-only commit does not change that tested source. Physical iOS/macOS audio-device behavior remains unverified.
 
 The viewer was tested through a loopback-only HTTP server. Its generated HTML embeds data, scripts, and styles and contains no runtime network requests. Direct `file://` navigation could not be tested because the in-app browser blocks that protocol. The delivered HTML can be opened manually in a normal browser; that exact opening path has not been verified in this session.
 

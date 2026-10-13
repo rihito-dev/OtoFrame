@@ -2,7 +2,7 @@
 
 A small C++17 library for inspecting the level, spectral shape, and pitch-class energy of mono PCM audio. Extracted from an existing audio application, with documented changes to FFT scaling and descriptor definitions.
 
-**Current status:** private development preview. Apple Silicon macOS tests have passed with both FFT backends. Linux/Windows CI is prepared but has not run. No live microphone or iOS-device validation is claimed.
+**Current status:** private development preview. Local Apple Silicon macOS tests and GitHub CI on macOS (both FFT backends), Linux, and Windows have passed. No live microphone or iOS-device validation is claimed.
 
 ![Offline signal explorer](docs/preview.jpg)
 
