@@ -2,6 +2,8 @@
 
 A small C++17 library for inspecting the level, spectral shape, and pitch-class energy of mono PCM audio. Extracted from an existing audio application, with documented changes to FFT scaling and descriptor definitions.
 
+An agent-friendly CLI converts PCM16 WAV files into structured JSON reports for coding agents, scripts, and automated workflows.
+
 **Current status:** private development preview. Local Apple Silicon macOS tests and GitHub CI on macOS (both FFT backends), Linux, and Windows have passed. No live microphone or iOS-device validation is claimed.
 
 ![Offline signal explorer](docs/preview.jpg)
@@ -37,6 +39,27 @@ cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
 cmake --build build --config Release
 ctest --test-dir build -C Release --output-on-failure
 ```
+
+## Agent-friendly CLI
+
+After building, agents can run the CLI directly from a shell or subprocess. Analysis runs locally without interactive prompts, a browser, an account, microphone access, or network requests.
+
+```sh
+# Generate a synthetic report for a quick integration check:
+build/otoframe --demo build/demo.json
+# Analyze a supported PCM16 WAV file:
+build/otoframe --wav recording.wav --output build/report.json
+```
+
+For a Windows Release build with a multi-configuration CMake generator, use `build/Release/otoframe.exe`. The output directory must already exist. A successful run writes JSON to the specified file and a short status message to stdout. Errors and usage messages go to stderr. Check the exit code before reading the report:
+
+| Exit code | Meaning |
+|---|---|
+| `0` | Report generated successfully |
+| `1` | Input, analysis, or output error |
+| `2` | Invalid command-line arguments |
+
+Reports declare `schema: 1` and include the sample rate, frame size, hop size, duration, FFT backend, synthetic-input flag, and a `frames` array. Each frame contains named numerical features plus band, chroma, and spectrum arrays, so agents can parse results without reading the viewer or interpreting prose. The CLI uses a frame size of 2048 samples and a hop of 1024 samples; the C++ API supports other configurations.
 
 ## Embed in an audio application
 
@@ -93,6 +116,8 @@ The core leaves decoding, resampling, stereo policy, scheduling, and transport t
 既存の音響アプリから音声特徴量の抽出処理を独立させた、小さなC++17ライブラリです。音量、音の明るさ、音の変化量、12音の成分を取得できます。プライベート開発版で、リポジトリ名はOtoFrameです。
 
 `demo/index.html` を開くと、合成音の分析結果をブラウザで確認できます。`./build.sh` でテストとデモを再生成できます。元の実装と単位・定義を整理した公開版では一部の数値が変わるため、互換性の詳細は抽出記録に明記しています。元のアプリには変更を加えていません。
+
+CLIから対話操作なしで分析を実行し、指定したファイルに構造化JSONを出力できるため、コーディングエージェントや自動処理に組み込みやすい設計です。終了コードで成功・処理エラー・引数エラーを判別できます。ビルド後の分析はローカルで完結し、アカウントやネットワーク接続は不要です。具体的なコマンドと出力仕様は上の「Agent-friendly CLI」を参照してください。
 
 ## License
 
